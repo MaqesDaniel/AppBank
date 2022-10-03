@@ -1,7 +1,32 @@
-import React from 'react';
-import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, Text, StyleSheet } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import * as LocalAuthentication from 'expo-local-authentication'
+import { View, KeyboardAvoidingView, Image, TextInput, TouchableOpacity, TouchableHighlight, Text, StyleSheet } from 'react-native';
 
 export default function Login({ navigation }) {
+    const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            const compatible = await LocalAuthentication.hasHardwareAsync();
+            setIsBiometricSupported(compatible);
+        })();
+    });
+
+    function handleLogin() {
+        if (isBiometricSupported) {
+            LocalAuthentication.authenticateAsync()
+                .then(({ success }) => {
+                    if (success) {
+                        navigation.navigate('Home')
+                    }
+                })
+                .catch((error) => { console.log(error) })
+        }
+        else navigation.navigate('Home')
+    }
+
+
+
     return (
         <KeyboardAvoidingView style={styles.background}>
             <View style={styles.containerLogo}>
@@ -21,14 +46,14 @@ export default function Login({ navigation }) {
                     autoCorrect={false}
                     onChangeText={() => { }} />
 
-                <TouchableOpacity style={styles.btnSubmit} onPress={() => navigation.navigate('Home')}>
+                <TouchableHighlight style={styles.btnSubmit} onPress={handleLogin}>
                     <Text
                         style={styles.submitText}
                     >Entrar</Text>
-                </TouchableOpacity>
+                </TouchableHighlight>
 
                 <TouchableOpacity style={styles.btnRegister}>
-                    <Text style={styles.registerText}>Criar Conta</Text>
+                    <Text style={styles.registerText} onPress={() => navigation.navigate('UserForm')}>Criar Conta</Text>
                 </TouchableOpacity>
             </View>
         </KeyboardAvoidingView>

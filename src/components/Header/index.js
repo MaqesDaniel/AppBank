@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
         paddingTop: StatusBarHeight,
         paddingStart: 16,
         paddingEnd: 16,
-        paddingBottom: 44
+        paddingBottom: 44,
     },
     profileContainer: {
         marginTop: 8,

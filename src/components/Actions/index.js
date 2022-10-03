@@ -7,11 +7,13 @@ import { Ionicons } from '@expo/vector-icons';
 
 import imagePix from '../../../assets/logo-pix.png'
 import transferIcon from '../../../assets/transfer.png'
+import { useNavigation } from '@react-navigation/native';
 
 export default function Actions() {
+    const navigation = useNavigation()
     return (
         <ScrollView style={styles.container} horizontal={true} showsHorizontalScrollIndicator={false} >
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Transaction')}>
                 <View style={styles.areaButton}>
                     <Image source={transferIcon} style={styles.TransferIconStyle} />
                 </View>
@@ -25,7 +27,7 @@ export default function Actions() {
                 <Text style={styles.labelButton}>Pix</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => navigation.navigate('Cartoes')}>
                 <View style={styles.areaButton}>
                     <AntDesign name="creditcard" size={26} color={'#001F54'}></AntDesign>
                 </View>
